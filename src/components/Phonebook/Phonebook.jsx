@@ -4,9 +4,10 @@ import { nanoid } from 'nanoid';
 import * as Yup from 'yup';
 import { Forms, Label, Input, Button, ErrorMess } from './Phonebook.styled';
 import PropTypes from 'prop-types';
-import { addContacts } from 'redux/contactsSlice';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -23,7 +24,7 @@ const PhoneBook = () => {
   const [name] = useState('');
   const [number] = useState('');
   const dispatch = useDispatch();
-  const { contacts } = useSelector(getContacts);
+  const contacts = useSelector(getContacts);
 
   const handleSubmit = (values, { resetForm }) => {
     const newContact = {
@@ -34,7 +35,7 @@ const PhoneBook = () => {
       alert(`${name} is already in contacts!`);
       return;
     } else {
-      dispatch(addContacts(newContact));
+      dispatch(addContact(newContact));
     }
     resetForm();
   };

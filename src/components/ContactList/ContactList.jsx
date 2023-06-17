@@ -2,18 +2,14 @@ import { List, Item } from './ContactList.styled';
 import { Button } from 'components/Phonebook/Phonebook.styled';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
-import { getContacts, getFilter } from 'redux/selectors';
+import { deleteContact } from 'redux/operations';
+import { selectFilterContacts } from 'redux/selectors';
 const ContactList = () => {
-  const { contacts } = useSelector(getContacts);
-  const filter = useSelector(getFilter);
-  const filteredContacts = contacts.filter(item =>
-    item.name.toLowerCase().includes(filter.toLowerCase().trim())
-  );
+  const contacts = useSelector(selectFilterContacts);
   const dispatch = useDispatch();
   return (
     <List>
-      {filteredContacts.map(item => {
+      {contacts.map(item => {
         return (
           <Item key={item.id}>
             <p>{item.name}: </p> <p>{item.number}</p>
